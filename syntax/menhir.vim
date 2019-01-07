@@ -22,27 +22,36 @@ syn match   menhirLineComment excludenl "//.*$" contains=@Spell,ocamlTodo
 syn match   menhirOcamlCommentErr "\*)"
 syn match   menhirCCommentErr "\*/"
 
+syn keyword menhirDeclarationKeywordErr         %parameter %token %nonassoc %left %right %type
+                                              \ %start %attribute %on_error_reduce
+syn keyword menhirDeclarationKeyword contained  %parameter %token %nonassoc %left %right %type
+                                              \ %start %attribute %on_error_reduce
 
-syn cluster menhirComments contains=menhir.*Comment
+syn keyword menhirRuleKeywordErr          %public %inline %prec
+syn keyword menhirRuleKeyword contained   %public %inline %prec
 
-
-
-syn keyword menhirKeyword              %parameter %token %nonassoc %left %right %type %start
-                                     \ %attribute %on_error_reduce %public %inline %prec
 syn keyword menhirDeclarationSeparator %%
 
+
+syn cluster menhirEverywhere contains=menhir.*Comment,menhir.*KeywordErr,menhirDeclarationSeparator
 
 " These break each document into the three sections of a Menhir parser definition:
 " FIXME: Temporary approach, so I can iterate on the rest of this while I wait on my SO question:
 "    <https://stackoverflow.com/q/54067397/31897>
-"syn region menhirSeparatorError start=/%%/ end=/%%/ contained contains=@menhirComments
 syn cluster menhirDeclarations contains=menhirDeclarationKeyword
-syn region menhirOcamlFooter start=/OCAML/ end=/OCAMLEND/ contains=@menhirComments
-syn region menhirRules start=/RULES/ end=/RULESEND/ contains=@menhirComments
-syn region menhirDeclarations start=/\%^/ end=/%%/ contains=@menhirComments
+syn cluster menhirRules contains=menhirRuleKeyword
+"syn region menhirSeparatorError start=/%%/ end=/%%/ contained contains=@menhirComments
+syn region menhirOcamlFooter start=/OCAML/ end=/OCAMLEND/ contains=@menhirEverywhere
+syn region menhirRules start=/RULES/ end=/RULESEND/ contains=@menhirEverywhere,@menhirRules
+syn region menhirDeclarations start=/\%^/ end=/%%/lc=2 contains=@menhirEverywhere,@menhirDeclarations
 
 
-hi default link menhirKeyword                Keyword
+hi default link menhirDeclarationKeyword     Keyword
+hi default link menhirDeclarationKeywordErr  Error
+
+hi default link menhirRuleKeyword            Keyword
+hi default link menhirRuleKeywordErr         Error
+
 hi default link menhirDeclarationSeparator   Special
 
 hi default link menhirOcamlCommentErr        Error
@@ -51,6 +60,5 @@ hi default link menhirOcamlComment           ocamlComment
 hi default link menhirCComment               ocamlComment
 hi default link menhirLineComment            ocamlComment
 
-hi menhirDeclarations guibg=white
 
 let b:current_syntax = "menhir"
