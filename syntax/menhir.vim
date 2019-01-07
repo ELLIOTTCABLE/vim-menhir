@@ -31,6 +31,14 @@ syn keyword menhirKeyword              %parameter %token %nonassoc %left %right 
                                      \ %attribute %on_error_reduce %public %inline %prec
 syn keyword menhirDeclarationSeparator %%
 
+
+" These break each document into the three sections of a Menhir parser definition:
+" FIXME: Temporary approach, so I can iterate on the rest of this while I wait on my SO question:
+"    <https://stackoverflow.com/q/54067397/31897>
+"syn region menhirSeparatorError start=/%%/ end=/%%/ contained contains=@menhirComments
+syn cluster menhirDeclarations contains=menhirDeclarationKeyword
+syn region menhirOcamlFooter start=/OCAML/ end=/OCAMLEND/ contains=@menhirComments
+syn region menhirRules start=/RULES/ end=/RULESEND/ contains=@menhirComments
 syn region menhirDeclarations start=/\%^/ end=/%%/ contains=@menhirComments
 
 
