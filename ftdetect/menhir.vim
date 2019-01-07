@@ -1,1 +1,1 @@
-au BufRead,BufNewFile *.mly set filetype=menhir
+au BufRead,BufNewFile *.mly setlocal filetype=menhir
