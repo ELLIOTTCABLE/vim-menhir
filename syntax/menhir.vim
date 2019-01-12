@@ -40,10 +40,11 @@ syn cluster menhirEverywhere contains=menhir.*Comment,menhir.*KeywordErr,menhirD
 "    <https://stackoverflow.com/q/54067397/31897>
 syn cluster menhirDeclarations contains=menhirDeclarationKeyword
 syn cluster menhirRules contains=menhirRuleKeyword
-"syn region menhirSeparatorError start=/%%/ end=/%%/ contained contains=@menhirComments
-syn region menhirOcamlFooter start=/OCAML/ end=/OCAMLEND/ contains=@menhirEverywhere
-syn region menhirRules start=/RULES/ end=/RULESEND/ contains=@menhirEverywhere,@menhirRules
-syn region menhirDeclarations start=/\%^/ end=/%%/lc=2 contains=@menhirEverywhere,@menhirDeclarations
+
+syn region menhirSeparatorError start=/%%/ end=/\%$/ contained contains=@menhirComments
+syn region menhirOcamlFooter start=/%%/ end=/%%/me=s-1 contained nextgroup=menhirSeparatorError contains=@menhirEverywhere
+syn region menhirRules start=/%%/ end=/%%/me=s-1 contained nextgroup=menhirOcamlFooter contains=@menhirEverywhere,@menhirRules
+syn region menhirDeclarations start=/\%^./ end=/%%/me=s-1 nextgroup=menhirRules contains=@menhirEverywhere,@menhirDeclarations
 
 
 hi default link menhirDeclarationKeyword     Keyword
