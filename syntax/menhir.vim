@@ -27,15 +27,17 @@ syn keyword menhirDeclarationKeywordErr         %parameter %token %nonassoc %lef
 syn keyword menhirDeclarationKeyword contained  %parameter %token %nonassoc %left %right %type
                                               \ %start %attribute %on_error_reduce
 
-syn region  menhirDeclarationTypeErr matchgroup=menhirDeclarationTypeBrack start=/</ end=/>/
+syn region  menhirDeclarationTypeErr start=/</ end=/>/
 syn region  menhirDeclarationType matchgroup=menhirDeclarationTypeBrack start=/</ end=/>/ contained
     \ contains=@ocamlRoot
 
-syn region  menhirDeclarationOcamlHeaderErr matchgroup=menhirDeclarationTypeBrack
+syn region  menhirDeclarationOcamlHeaderErr matchgroup=menhirDeclarationOcamlBrackErr
     \ start=/%{/ end=/%}/
-syn region  menhirDeclarationOcamlHeader matchgroup=menhirDeclarationTypeBrack
+syn region  menhirDeclarationOcamlHeader matchgroup=menhirDeclarationOcamlBrack
     \ start=/%{/ end=/%}/ contained
     \ contains=@ocamlRoot
+
+syn match   menhirDeclarationOcamlBrackErr "%}"
 
 syn keyword menhirRuleKeywordErr          %public %inline %prec
 syn keyword menhirRuleKeyword contained   %public %inline %prec
@@ -46,13 +48,13 @@ syn region  menhirRuleAction matchgroup=menhirRuleActionBrace start=/{/ end=/}/ 
 syn keyword menhirDeclarationSeparator %%
 
 
-syn cluster menhirEverywhere contains=menhir.*Comment,menhir.*KeywordErr,menhirDeclarationSeparator
+syn cluster menhirEverywhere contains=menhir.*Comment.*,menhir.*KeywordErr,menhirDeclarationSeparator
 
 " These break each document into the three sections of a Menhir parser definition:
 " FIXME: Temporary approach, so I can iterate on the rest of this while I wait on my SO question:
 "    <https://stackoverflow.com/q/54067397/31897>
-syn cluster menhirDeclarations contains=menhirDeclarationKeyword,menhirDeclarationType,menhirDeclarationOcamlHeader
-syn cluster menhirRules contains=menhirRuleKeyword,menhirRuleAction
+syn cluster menhirDeclarations contains=menhirRule.*Err,menhirDeclarationKeyword,menhirDeclarationType,menhirDeclarationOcamlHeader
+syn cluster menhirRules contains=menhirDeclaration.*Err,menhirRuleKeyword,menhirRuleAction
 
 syn region  menhirSeparatorError  start=/%%/ end=/\%$/ contained
     \ contains=@menhirComments
@@ -68,6 +70,9 @@ hi default link menhirDeclarationKeyword     Keyword
 hi default link menhirDeclarationKeywordErr  Error
 hi default link menhirDeclarationTypeErr     Error
 hi default link menhirDeclarationOcamlHeaderErr Error
+hi default link menhirDeclarationOcamlBrack  Delimiter
+hi default link menhirDeclarationOcamlBrackErr  Error
+
 
 hi default link menhirRuleKeyword            Keyword
 hi default link menhirRuleKeywordErr         Error
