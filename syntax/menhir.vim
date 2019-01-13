@@ -2,7 +2,7 @@ if exists("b:current_syntax")
     finish
 endif
 
-syn include ocamlRoot syntax/ocaml.vim
+syn include @ocamlRoot syntax/ocaml.vim
 
 " I much prefer Steve Losh's viewpoint on using Vim command-abbreviation in Vimscripts (see
 " <http://ell.io/-vimshorts>); but a brief survey of Vim syntaxfiles out there shows that *basically
@@ -27,8 +27,14 @@ syn keyword menhirDeclarationKeywordErr         %parameter %token %nonassoc %lef
 syn keyword menhirDeclarationKeyword contained  %parameter %token %nonassoc %left %right %type
                                               \ %start %attribute %on_error_reduce
 
+syn region menhirDeclarationType matchgroup=menhirDeclarationTypeBrack start=/</ end=/>/ contained
+    \ contains=@ocamlRoot
+
 syn keyword menhirRuleKeywordErr          %public %inline %prec
 syn keyword menhirRuleKeyword contained   %public %inline %prec
+
+syn region menhirRuleAction matchgroup=menhirRuleActionBrace start=/{/ end=/}/ contained
+    \ contains=@ocamlRoot
 
 syn keyword menhirDeclarationSeparator %%
 
@@ -38,13 +44,17 @@ syn cluster menhirEverywhere contains=menhir.*Comment,menhir.*KeywordErr,menhirD
 " These break each document into the three sections of a Menhir parser definition:
 " FIXME: Temporary approach, so I can iterate on the rest of this while I wait on my SO question:
 "    <https://stackoverflow.com/q/54067397/31897>
-syn cluster menhirDeclarations contains=menhirDeclarationKeyword
-syn cluster menhirRules contains=menhirRuleKeyword
+syn cluster menhirDeclarations contains=menhirDeclarationKeyword,menhirDeclarationType
+syn cluster menhirRules contains=menhirRuleKeyword,menhirRuleAction
 
-syn region menhirSeparatorError start=/%%/ end=/\%$/ contained contains=@menhirComments
-syn region menhirOcamlFooter start=/%%/ end=/%%/me=s-1 contained nextgroup=menhirSeparatorError contains=@menhirEverywhere
-syn region menhirRules start=/%%/ end=/%%/me=s-1 contained nextgroup=menhirOcamlFooter contains=@menhirEverywhere,@menhirRules
-syn region menhirDeclarations start=/\%^./ end=/%%/me=s-1 nextgroup=menhirRules contains=@menhirEverywhere,@menhirDeclarations
+syn region menhirSeparatorError  start=/%%/ end=/\%$/ contained
+    \ contains=@menhirComments
+syn region menhirOcamlFooter     start=/%%/ end=/%%/me=s-1 contained
+    \ nextgroup=menhirSeparatorError contains=@menhirEverywhere,@ocamlRoot
+syn region menhirRules           start=/%%/ end=/%%/me=s-1 contained
+    \ nextgroup=menhirOcamlFooter contains=@menhirEverywhere,@menhirRules
+syn region menhirDeclarations    start=/\%^./ end=/%%/me=s-1
+    \ nextgroup=menhirRules contains=@menhirEverywhere,@menhirDeclarations
 
 
 hi default link menhirDeclarationKeyword     Keyword
@@ -52,6 +62,7 @@ hi default link menhirDeclarationKeywordErr  Error
 
 hi default link menhirRuleKeyword            Keyword
 hi default link menhirRuleKeywordErr         Error
+hi default link menhirRuleActionBrace        Delimiter
 
 hi default link menhirDeclarationSeparator   Special
 
@@ -61,5 +72,6 @@ hi default link menhirOcamlComment           ocamlComment
 hi default link menhirCComment               ocamlComment
 hi default link menhirLineComment            ocamlComment
 
+hi default link menhirSeparatorError         Error
 
 let b:current_syntax = "menhir"
