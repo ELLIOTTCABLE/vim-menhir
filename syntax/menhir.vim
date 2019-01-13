@@ -40,7 +40,7 @@ syn region  menhirDeclarationOcamlHeader matchgroup=menhirDeclarationTypeBrack
 syn keyword menhirRuleKeywordErr          %public %inline %prec
 syn keyword menhirRuleKeyword contained   %public %inline %prec
 
-syn region menhirRuleAction matchgroup=menhirRuleActionBrace start=/{/ end=/}/ contained
+syn region  menhirRuleAction matchgroup=menhirRuleActionBrace start=/{/ end=/}/ contained
     \ contains=@ocamlRoot
 
 syn keyword menhirDeclarationSeparator %%
@@ -54,13 +54,13 @@ syn cluster menhirEverywhere contains=menhir.*Comment,menhir.*KeywordErr,menhirD
 syn cluster menhirDeclarations contains=menhirDeclarationKeyword,menhirDeclarationType,menhirDeclarationOcamlHeader
 syn cluster menhirRules contains=menhirRuleKeyword,menhirRuleAction
 
-syn region menhirSeparatorError  start=/%%/ end=/\%$/ contained
+syn region  menhirSeparatorError  start=/%%/ end=/\%$/ contained
     \ contains=@menhirComments
-syn region menhirOcamlFooter     start=/%%/ end=/%%/me=s-1 contained
+syn region  menhirOcamlFooter     start=/%%/ end=/%%/me=s-1 contained
     \ nextgroup=menhirSeparatorError contains=@menhirEverywhere,@ocamlRoot
-syn region menhirRules           start=/%%/ end=/%%/me=s-1 contained
+syn region  menhirRules           start=/%%/ end=/%%/me=s-1 contained
     \ nextgroup=menhirOcamlFooter contains=@menhirEverywhere,@menhirRules
-syn region menhirDeclarations    start=/\%^./ end=/%%/me=s-1
+syn region  menhirDeclarations    start=/\%^./ end=/%%/me=s-1
     \ nextgroup=menhirRules contains=@menhirEverywhere,@menhirDeclarations
 
 
