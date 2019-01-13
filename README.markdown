@@ -20,5 +20,5 @@ I'm pretty involved with other projects, this may languish. Feel free to reach o
 [@ELLIOTTCABLE][], Freenode, or elsewhere, if you have any questions / I miss an Issue!
 
    [Menhir]: <http://gallium.inria.fr/~fpottier/menhir/> "An LR(1) parser-generator for OCaml"
-   [ocamlyacc]: <http://caml.inria.fr/pub/docs/manual-ocaml/lexyacc.html#sec278>
+   [`ocamlyacc`]: <http://caml.inria.fr/pub/docs/manual-ocaml/lexyacc.html#sec278>
    [@ELLIOTTCABLE]: <https://twitter.com/ELLIOTTCABLE> "ELLIOTTCABLE on Twitter"
