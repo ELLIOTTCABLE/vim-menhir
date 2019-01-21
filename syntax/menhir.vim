@@ -22,10 +22,10 @@ syn match   menhirLineComment excludenl "//.*$" contains=@Spell,ocamlTodo
 syn match   menhirOcamlCommentErr "\*)"
 syn match   menhirCCommentErr "\*/"
 
-syn keyword menhirDeclarationKeywordErr         %parameter %token %nonassoc %left %right %type
-                                              \ %start %attribute %on_error_reduce
-syn keyword menhirDeclarationKeyword contained  %parameter %token %nonassoc %left %right %type
-                                              \ %start %attribute %on_error_reduce
+syn keyword menhirDeclarationKeywordErr contained  %parameter %token %nonassoc %left %right %type
+                                                 \ %start %attribute %on_error_reduce
+syn keyword menhirDeclarationKeyword contained     %parameter %token %nonassoc %left %right %type
+                                                 \ %start %attribute %on_error_reduce
 
 syn region  menhirDeclarationTypeErr start=/</ end=/>/
 syn region  menhirDeclarationType matchgroup=menhirDeclarationTypeBrack start=/</ end=/>/ contained
@@ -39,8 +39,8 @@ syn region  menhirDeclarationOcamlHeader matchgroup=menhirDeclarationOcamlBrack
 
 syn match   menhirDeclarationOcamlBrackErr "%}"
 
-syn keyword menhirRuleKeywordErr          %public %inline %prec
-syn keyword menhirRuleKeyword contained   %public %inline %prec
+syn keyword menhirRuleKeywordErr contained   %public %inline %prec
+syn keyword menhirRuleKeyword contained      %public %inline %prec
 
 syn region  menhirRuleAction matchgroup=menhirRuleActionBrace start=/{/ end=/}/ contained
     \ contains=@ocamlRoot
