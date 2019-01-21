@@ -42,6 +42,12 @@ syn match   menhirDeclarationOcamlBrackErr "%}"
 syn keyword menhirRuleKeywordErr contained   %public %inline %prec
 syn keyword menhirRuleKeyword contained      %public %inline %prec
 
+syn match   menhirRuleNonterminalDefinitionName contained
+    \ /[[:lower:]]\+/
+syn match   menhirRuleNonterminalDefinition contained
+    \ contains=menhirRuleNonterminalDefinitionName
+    \ /[[:lower:]]\+\(([[:upper:][:lower:][:blank:],]\+)\)\?:/
+
 syn region  menhirRuleAction matchgroup=menhirRuleActionBrace start=/{/ end=/}/ contained
     \ contains=@ocamlRoot
 
@@ -54,7 +60,7 @@ syn cluster menhirEverywhere contains=menhir.*Comment.*,menhir.*KeywordErr,menhi
 " FIXME: Temporary approach, so I can iterate on the rest of this while I wait on my SO question:
 "    <https://stackoverflow.com/q/54067397/31897>
 syn cluster menhirDeclarations contains=menhirRule.*Err,menhirDeclarationKeyword,menhirDeclarationType,menhirDeclarationOcamlHeader
-syn cluster menhirRules contains=menhirDeclaration.*Err,menhirRuleKeyword,menhirRuleAction
+syn cluster menhirRules contains=menhirDeclaration.*Err,menhirRuleKeyword,menhirRuleNonterminalDefinition,menhirRuleAction
 
 syn region  menhirSeparatorError  start=/%%/ end=/\%$/ contained
     \ contains=@menhirComments
@@ -76,6 +82,8 @@ hi default link menhirDeclarationOcamlBrackErr  Error
 
 hi default link menhirRuleKeyword            Keyword
 hi default link menhirRuleKeywordErr         Error
+
+hi default link menhirRuleNonterminalDefinitionName Function
 hi default link menhirRuleActionBrace        Delimiter
 
 hi default link menhirDeclarationSeparator   Special
