@@ -44,9 +44,13 @@ syn keyword menhirRuleKeyword contained      %public %inline %prec
 
 syn match   menhirRuleNonterminalDefinitionName contained
     \ /[[:lower:]]\+/
+syn match   menhirRuleNonterminalDefinitionParam contained
+    \ /[[:upper:][:lower:]]\+/
+syn region  menhirRuleNonterminalDefinitionParams contained
+    \ start=/(/ end=/)/ contains=menhirRuleNonterminalDefinitionParam
 syn match   menhirRuleNonterminalDefinition contained
-    \ contains=menhirRuleNonterminalDefinitionName
     \ /[[:lower:]]\+\(([[:upper:][:lower:][:blank:],]\+)\)\?:/
+    \ contains=menhirRuleNonterminalDefinitionName,menhirRuleNonterminalDefinitionParams
 
 syn region  menhirRuleAction matchgroup=menhirRuleActionBrace start=/{/ end=/}/ contained
     \ contains=@ocamlRoot
@@ -84,6 +88,7 @@ hi default link menhirRuleKeyword            Keyword
 hi default link menhirRuleKeywordErr         Error
 
 hi default link menhirRuleNonterminalDefinitionName Function
+hi default link menhirRuleNonterminalDefinitionParam Identifier
 hi default link menhirRuleActionBrace        Delimiter
 
 hi default link menhirDeclarationSeparator   Special
